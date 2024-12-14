@@ -331,7 +331,7 @@ const grantPermissions = async () => {
 
     devices.value = await webrtc.getDevices()
 
-    const tracks = mediaStream.getTracks()
+    const tracks = mediaStream?.getTracks()
 
     tracks.forEach((track) => {
       track.stop()
