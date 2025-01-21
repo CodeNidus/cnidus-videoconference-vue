@@ -45,6 +45,8 @@ import {defineExpose, defineProps, ref, computed, onMounted, onUnmounted, inject
 
 const webrtc = inject('webrtc')
 
+
+
 const props = defineProps({
   webrtc: {
     type: Object,
@@ -130,8 +132,13 @@ const userFaceApiListenerAction = (e) => {
   webrtc.helpers.faceApiAction.setTimer(e)
 }
 
+const getBucketImages = () => {
+    webrtc.helpers.faceApiAction.getImagesFromBucket(props.room.id)
+}
+
 onMounted(() => {
   setActionEventListener()
+  getBucketImages()
 })
 
 onUnmounted(() => {
