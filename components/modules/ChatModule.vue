@@ -80,7 +80,7 @@ const text = ref()
 const dialog = ref(false)
 const room = ref()
 const messages = ref([])
-const selectedUser = ref()
+const selectedUser = ref(null)
 const action = ref({
   name: 'chat',
   moderator: false,
@@ -110,13 +110,13 @@ const show = (status = true) => {
   }
 }
 
-const open = (room) => {
-  room.value = room
+const open = (roomData) => {
+  room.value = roomData
   show()
 }
 
 const sendMessage = () => {
-  let actionItem = { ...action }
+  let actionItem = { ...action.value }
   actionItem.attributes.message = text.value
   actionItem.attributes.sender = props.webrtc.peerJsId
 
