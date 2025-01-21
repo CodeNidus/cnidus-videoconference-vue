@@ -8,9 +8,9 @@
       <div class="chat-section-interface">
         <div class="messages" ref="messagesBox">
           <div
-            v-for="(message, index) in messages"
-            :key="index"
-            class="message-item">
+              v-for="(message, index) in messages"
+              :key="index"
+              class="message-item">
             <span>{{ message.from }}</span>
             <small>{{ message.time }}</small>
             <small v-if="message.private"> (private)</small>
@@ -19,19 +19,19 @@
         </div>
         <div class="user-send">
           <select
-            v-if="!!users"
-            v-model="selectedUser"
+              v-if="!!users"
+              v-model="selectedUser"
           >
             <option
-              v-for="(user, index) in users"
-              :key="index"
-              :value="user?.peerJsId"
+                v-for="(user, index) in users"
+                :key="index"
+                :value="user?.peerJsId"
             >{{ user?.name }}</option>
           </select>
           <textarea
-            rows="3"
-            v-model="text"
-            placeholder="Enter message ..."
+              rows="3"
+              v-model="text"
+              placeholder="Enter message ..."
           ></textarea>
           <button :disabled="!text" @click="sendMessage">Send</button>
         </div>
