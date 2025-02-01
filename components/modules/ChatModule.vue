@@ -28,11 +28,18 @@
                 :value="user?.peerJsId"
             >{{ user?.name }}</option>
           </select>
+          <div
+              ref="emojiesBox"
+              class="emojies-box"
+          >
+            <EmojiPicker :native="true" @select="onSelectEmoji" />
+          </div>
           <textarea
               rows="3"
               v-model="text"
               placeholder="Enter message ..."
           ></textarea>
+          <span class="emojies-toggler" @click="showEmojiesBox">[Emojies]</span>
           <button :disabled="!text" @click="sendMessage">Send</button>
         </div>
       </div>
@@ -44,6 +51,7 @@
 <script setup>
 import { ref, computed, watch, defineProps, nextTick, onUnmounted } from 'vue'
 import beepAudio from '../../assets/audio/beep.mp3'
+import EmojiPicker from 'vue3-emoji-picker'
 
 
 const props = defineProps({
@@ -75,6 +83,7 @@ const users = computed(() => {
 
 
 const messagesBox = ref()
+const emojiesBox = ref()
 const audio = ref()
 const text = ref()
 const dialog = ref(false)
@@ -134,6 +143,7 @@ const sendMessage = () => {
 
 const setActionEventListener = () => {
   window.addEventListener('onChatAction-ReceivedMessage', receivedMessageAction)
+  document.addEventListener('click', handleEmojiesBox)
 }
 
 const receivedMessageAction = (e) => {
@@ -183,8 +193,27 @@ const insertMessage = (name, message, privateType = false) => {
   })
 }
 
+const onSelectEmoji = (emoji) => {
+  if (!text.value) {
+    text.value = ''
+  }
+
+  text.value += emoji.i
+}
+
+const showEmojiesBox = () => {
+  emojiesBox.value.classList.toggle('show');
+}
+
+const handleEmojiesBox = (event) => {
+  if (!(event.target.classList.contains('emojies-toggler') || emojiesBox.value === event.target || emojiesBox.value.contains(event.target))) {
+    emojiesBox.value.classList.remove('show')
+  }
+}
+
 onUnmounted(() => {
   window.removeEventListener('onChatAction-ReceivedMessage', receivedMessageAction)
+  document.removeEventListener('click', handleEmojiesBox)
 })
 
 setActionEventListener()
@@ -196,6 +225,8 @@ defineExpose({
 </script>
 
 <style lang="scss">
+@import 'vue3-emoji-picker/css';
+
 #chat-module {
   .chat-section-heading {
     padding: 10px;
@@ -264,6 +295,22 @@ defineExpose({
         @media screen and (max-width: 480px) {
           margin-bottom: 50px;
         }
+      }
+
+      .emojies-box {
+        position: absolute;
+        z-index: 1;
+        bottom: 105px;
+        display: none;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .emojies-toggler {
+        cursor: pointer;
+        position: absolute;
       }
     }
   }
