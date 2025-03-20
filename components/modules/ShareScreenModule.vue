@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineExpose, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   webrtc: {
@@ -37,7 +37,10 @@ const open = async (room) => {
       return
     }
 
-    props.webrtc.Media.screenShare.startShareScreen()
+    props.webrtc.Media.screenShare.startShareScreen().catch(error => {
+
+    })
+
   } else {
     props.webrtc.Media.screenShare.stopShareScreen()
   }

@@ -108,7 +108,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, inject, onUnmounted, onMounted, watch, computed} from 'vue'
+import {ref, inject, onUnmounted, onMounted, watch, computed } from 'vue'
 
 const webrtc = inject('webrtc')
 
@@ -411,10 +411,11 @@ onUnmounted(() => {
         display: none;
       //  flex: 1;
         width: 60vw;
-        background: #161e57;
+        background: #E2E8F0;
         opacity: 0.8;
         border-radius: 10px;
         margin-bottom: 10px;
+        padding: 10px;
         font-size: 16px;
 
         @media only screen and (max-width: 600px) {

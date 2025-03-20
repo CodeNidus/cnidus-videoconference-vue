@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { inject, onBeforeUnmount, onMounted, ref, defineEmits } from 'vue'
+import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import RoomsList from './RoomsList.vue'
 import RoomCreate from './RoomCreate.vue'
 
@@ -87,7 +87,7 @@ onMounted(() => {
 #rooms-section {
   display: flex;
   justify-content: space-around;
-  text-align: center;
+  gap: 50px;
 
   @media screen and (max-width: 480px) {
     flex-direction: column;

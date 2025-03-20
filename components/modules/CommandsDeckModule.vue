@@ -154,8 +154,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-
 const props = defineProps({
   userSettings: {
     type: Object,
@@ -168,44 +166,3 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang="scss">
-.command-deck {
-  position: fixed;
-  z-index: 99990;
-  display: flex;
-  justify-content: center;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-
-  background: #2d2d2d;
-
-  div {
-    padding: 10px;
-
-    .btn {
-
-      &.notify {
-        &:after {
-          position: absolute;
-          display: inline-block;
-          content: "";
-          top: 0;
-          right: 0;
-          width: 12px;
-          height: 12px;
-          background: #ea4335;
-          border-radius: 50%;
-        }
-      }
-
-      @media (max-width: 480px) {
-        padding: 5px 8px;
-      }
-
-    }
-
-
-  }
-}
-</style>

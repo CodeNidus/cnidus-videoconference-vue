@@ -1,5 +1,5 @@
 <template>
-  <div id="rooms-list">
+  <div id="rooms-list" class="card">
     <h2>Rooms List</h2>
     <div class="rooms-list-table">
       <span
@@ -26,19 +26,26 @@
           <td>
             {{ room.name }}
           </td>
-          <td class="text-center">
+          <td>
             {{ room._id }}
           </td>
-          <td class="text-center">
+          <td>
             {{ room.start_time.split('T')[0] }}
           </td>
         </tr>
         </tbody>
         <tbody v-else>
         <tr>
-          <td colspan="2">Nothing found!</td>
+          <td colspan="3">Nothing found!</td>
         </tr>
         </tbody>
+        <tfoot v-if="rooms.length > 0">
+          <tr>
+            <td colspan="3">
+              Select desired room to join.
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
 
@@ -49,7 +56,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, inject, defineEmits, defineExpose} from 'vue'
+import { ref, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const emit = defineEmits([
@@ -116,10 +123,7 @@ defineExpose({
 <style lang="scss">
 #rooms-list {
   width: 100%;
-  display: inline-block;
-  padding: 10px;
-  margin: 0 0 0 50px;
-  border: 1px dashed #718096;
+  padding: 20px 50px;
 
   @media (max-width: 768px) {
     width: unset;
@@ -133,34 +137,6 @@ defineExpose({
     table {
       width: 100%;
       margin-top: 15px;
-      border-collapse: collapse;
-
-      thead {
-        th {
-          font-size: .9em;
-          text-align: center;
-          border: 1px solid #ccc;
-          padding: 2px;
-        }
-      }
-
-      tbody {
-        tr {
-          &:nth-child(odd) {
-            background-color: #d9d9d9;
-          }
-
-          &:nth-child(even) {
-            background-color: #e7e7e7;
-          }
-
-          td {
-            border: 1px solid #ccc;
-            padding: 2px;
-          }
-
-        }
-      }
     }
   }
 }

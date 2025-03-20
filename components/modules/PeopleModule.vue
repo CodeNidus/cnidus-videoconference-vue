@@ -1,11 +1,11 @@
 <template>
-  <div id="people-module" :style="{ 'display': ((dialog)? 'block' : 'none')}">
-    <div class="people-module-box">
-      <div class="people-section-heading">
-        <h3>people</h3>
+  <div id="people-module" class="module"  :style="{ 'display': ((dialog)? 'block' : 'none')}">
+    <div class="module-box sidebar">
+      <div class="module-box-heading">
+        <h3>Peoples</h3>
         <span class="close" @click="show(false)"></span>
       </div>
-      <div class="people-section-interface">
+      <div class="module-box-interface">
         <div class="people" ref="people">
           <div
             v-for="(user, index) in usersMenu"
@@ -31,9 +31,9 @@
                 class="dropdown-content"
                 :class="{ show: user.openMenu }"
               >
+                <h3>{{ user.name }}</h3>
                 <ul>
                   <li v-if="isCreator" @click="banUser(user)">Ban user</li>
-                  <li v-if="isCreator" @click="banUser5Second(user)">Ban user in 5 seconds</li>
                   <li v-if="isCreator && !user.micMute" @click="muteMic(user)">Mute user microphone</li>
                 </ul>
               </div>
@@ -72,12 +72,12 @@
 
       </div>
     </div>
-    <div class="people-module-back" @click="show(false)"></div>
+    <div class="module-back" @click="show(false)"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, defineProps, nextTick, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import admitAudio from '../../assets/audio/admit.mp3'
 
 const props = defineProps({
@@ -236,19 +236,12 @@ defineExpose({
 
 <style lang="scss">
 #people-module {
-  .people-section-heading {
-    padding: 10px;
-  }
-
-  .people-section-interface {
-    display: flex;
-    flex: auto;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: auto;
-    padding: 10px;
-
+  .module-box-interface {
     .people {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
       .user-item {
         display: flex;
         justify-content: space-between;
@@ -256,26 +249,6 @@ defineExpose({
 
         .dropdown-dots {
           cursor: pointer;
-        }
-
-        .dropdown-content {
-          display: none;
-          position: absolute;
-          right: 0;
-          background-color: #f9f9f9;
-          min-width: 160px;
-          overflow: auto;
-          padding: 10px;
-          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-          z-index: 1;
-
-          &.show {
-            display: block;
-          }
-
-          li {
-            cursor: pointer;
-          }
         }
       }
 
@@ -295,30 +268,6 @@ defineExpose({
         }
       }
     }
-  }
-
-  .people-module-box {
-    position: fixed;
-    flex-direction: column;
-    display: flex;
-    z-index: 999999;
-    top: 0;
-    right: 0;
-    width: 350px;
-    height: 100vh;
-    background: #fff;
-    border: 1px solid #ccc;
-  }
-
-  .people-module-back {
-    position: fixed;
-    z-index: 999998;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000;
-    opacity: 0.6;
   }
 }
 </style>

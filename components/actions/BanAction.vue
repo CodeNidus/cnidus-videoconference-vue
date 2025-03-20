@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import {defineExpose, defineProps, ref} from 'vue'
+import {ref} from 'vue'
 
 const props = defineProps({
   webrtc: {

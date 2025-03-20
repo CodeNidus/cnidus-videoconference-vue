@@ -1,49 +1,58 @@
 <template>
-  <div id="room-register">
+  <div id="room-register" class="card">
     <h2>Create Room</h2>
     <form ref="form" @submit="createRoom">
-      <div>
-        <label>Room Name:</label>
-        <input type="text" v-model="room.name"/>
-      </div>
-      <div>
-        <label>Moderator:</label>
-        <input type="text" v-model="room.moderator"/>
-      </div>
-      <div>
-        <label>Start Time:</label>
+      <div class="text-field">
+        <label>Room Name</label>
         <input
-            type="datetime-local"
+            v-model="room.name"
+            type="text"
+        />
+      </div>
+      <div class="text-field">
+        <label>Moderator</label>
+        <input
+            v-model="room.moderator"
+            type="text"
+        />
+      </div>
+      <div class="text-field">
+        <label>Start Time</label>
+        <input
             v-model="room.start_time"
+            type="datetime-local"
             :min="roomMinTime"
         />
       </div>
-      <div>
-        <label>End Time:</label>
+      <div class="text-field">
+        <label>End Time</label>
         <input
-            type="datetime-local"
             v-model="room.end_time"
+            type="datetime-local"
             :min="room.start_time"
         />
       </div>
-      <div>
-        <label>Expire Time:</label>
+      <div class="text-field">
+        <label>Expire Time</label>
         <input
-            type="datetime-local"
             v-model="room.expire_time"
+            type="datetime-local"
             :min="room.end_time"
         />
       </div>
       <div>
-        <label>Authorisable:</label>
-        <input
-            type="checkbox"
+        <label class="text-bold">Authorisable</label>
+        <label class="switch mx-2">
+          <input
             v-model="room.authorisable"
+            type="checkbox"
             :value="true"
-        />
+          >
+          <span class="slider"></span>
+        </label>
       </div>
       <div>
-        <input v-if="!loading" type="submit" value="Create Room"/>
+        <input v-if="!loading" type="submit" class="btn btn-block" value="Create Room"/>
         <span v-else>Please wait ...</span>
       </div>
     </form>
@@ -55,7 +64,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, inject, defineEmits} from 'vue'
+import {ref, inject } from 'vue'
 
 const webrtc = inject('webrtc')
 const apiClient = webrtc.axios.getInstance()
@@ -142,11 +151,9 @@ setRoomStartEndTime()
 
 <style lang="scss">
 #room-register {
-  width: 100%;
+  width: 380px;
   display: inline-block;
-  padding: 10px;
-  margin: 0 50px 0 0;
-  border: 1px dashed #718096;
+  padding: 20px 50px;
 
   @media (max-width: 768px) {
     width: unset;
@@ -155,19 +162,6 @@ setRoomStartEndTime()
 
   div {
     margin-bottom: 20px;
-
-    label {
-      width: 120px;
-      display: inline-block;
-    }
-
-    input[type=checkbox] {
-      min-width: 200px;
-    }
-
-    input[type=text] {
-      display: inline-block;
-    }
   }
 }
 </style>

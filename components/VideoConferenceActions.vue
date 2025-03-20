@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineExpose, ref } from 'vue'
+import { ref } from 'vue'
 
 import BanAction from './actions/BanAction.vue'
 import TerminateAction from './actions/TerminateAction.vue'

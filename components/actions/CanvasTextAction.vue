@@ -1,36 +1,50 @@
 <template>
-  <div id="canvas-text" v-show="dialog || isPlay">
-    <div id="canvas-text-action" class="action" :style="{ 'display': ((dialog)? 'block' : 'none')}">
-      <div class="admin-section" v-if="props.userSettings.isCreator">
-        <div class="text-section">
-          <textarea rows="5" v-model="text"></textarea>
-          <span
-            v-if="isPlay"
-            @click.prevent="pauseMessage"
-            class="mx-2 c-pointer"
-          >
-            {{ (!isPause) ? 'Pause' : 'Resume' }}
-          </span>
-          <span class="mx-2 c-pointer" @click.prevent="marqueeMessage">{{ (!isPlay) ? 'Play' : 'Stop' }}</span>
-        </div>
-        <div
-          v-if="files.length > 0"
-          class="text-history"
-        >
+  <div id="canvas-text" class="action" v-show="dialog || isPlay">
+    <div id="canvas-text-action" class="action-setting" :style="{ 'display': ((dialog)? 'block' : 'none')}">
+      <div class="action-setting-box" v-if="props.userSettings.isCreator">
+        <h3>Canvas Text</h3>
+        <div class="canvas-text-setting-section">
+          <div class="text-section">
+            <textarea rows="5" v-model="text"></textarea>
+            <div class="d-flex gap-1 canvas-text-setting-section-actions">
+              <button
+                v-if="isPlay"
+                @click.prevent="pauseMessage"
+                class="btn btn-subtle"
+              >
+                {{ (!isPause) ? 'Pause' : 'Resume' }}
+              </button>
+
+              <button
+                  @click.prevent="marqueeMessage"
+                  class="btn btn-subtle"
+                  :disabled="(!text || text === '')"
+              >
+                {{ (!isPlay) ? 'Play' : 'Stop' }}
+              </button>
+            </div>
+          </div>
+
           <div
-            v-for="(file, index) in files"
-            :key="index"
-            class="text-item"
+              v-if="files.length > 0"
+              class="text-history"
           >
-          <span
-            class="text-item-text"
-            @click="copyText(file.file)"
-          >{{ file.file.split('/').pop() }}</span>
+            <ul class="list-items">
+              <li
+                v-for="(file, index) in files"
+                :key="index"
+                @click="copyText(file.file)"
+              >
+                {{ file.file.split('/').pop() }}
+              </li>
+            </ul>
+
           </div>
         </div>
       </div>
-      <div class="canvas-text-action-back" @click="show(false)"></div>
+      <div class="action-setting-back" @click="show(false)"></div>
     </div>
+
     <div id="canvas-text-action-card">
       <div id="canvas-text-action-counter" v-if="props.userSettings.isCreator">
         <span
@@ -48,7 +62,7 @@
 </template>
 
 <script setup>
-import {defineExpose, defineProps, ref, computed, onMounted, inject} from 'vue'
+import { ref, computed, onMounted, inject } from 'vue'
 
 const webrtc = inject('webrtc')
 const apiClient = webrtc.axios.getInstance()
@@ -111,7 +125,7 @@ const getTextFromBucket = () => {
   try {
     webrtc.helpers.canvasTextAction.getTextFromBucket(props.room?.id || 0).then(response => {
       loading.value = false
-      files.value = response
+   //   files.value = response
     })
   } catch {
     loading.value = false
@@ -176,71 +190,38 @@ defineExpose({
   position: relative!important;
 
   #canvas-text-action {
+    .action-setting-box {
+      .canvas-text-setting-section {
+        display: flex;
 
-    .admin-section {
-      position: fixed;
-      display: flex;
-      z-index: 2;
-      top: 50%;
-      left: 50%;
-      width: 600px;
-      padding: 10px;
-      background: #fff;
-      border: 1px solid #ccc;
-      transform: translate(-50%, -50%);
+        @media screen and (max-width: 480px) {
+          flex-direction: column;
+        }
 
-      @media screen and (max-width: 480px) {
-        width: 90%;
-      }
-
-      .text-history {
-        width: 350px;
-        padding: 0px 10px;
-
-        .text-item {
+        .text-section {
           display: flex;
-          background: #cbd5e0;
-          border: 1px solid #718096;
-          border-radius: 5px;
-          padding: 5px 15px;
-          cursor: pointer;
-          user-select: none;
-
-          .text-item-text {
-            width: 100%;
-          }
-
-          .text-item-remove {
-            float: right;
-
-            &:before {
-              display: inline-block;
-              content: '\00d7';
-            }
-          }
-        }
-      }
-
-      .text-section {
-        width: 100%;
-
-        textarea {
+          flex-direction: column;
           width: 100%;
+          height: 150px;
+
+          textarea {
+
+          }
+
+          .canvas-text-setting-section-actions {
+            margin-top: 15px;
+          }
+        }
+
+        .text-history {
+          display: flex;
+          flex-direction: column;
+          max-width: 350px;
+          height: 150px;
+          padding: 0px 10px;
+          overflow: auto;
         }
       }
-
-
-    }
-
-    .canvas-text-action-back {
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #000;
-      opacity: 0.6;
     }
   }
 

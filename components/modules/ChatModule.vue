@@ -1,11 +1,11 @@
 <template>
-  <div id="chat-module" :style="{ 'display': ((dialog)? 'block' : 'none')}">
-    <div class="chat-module-box">
-      <div class="chat-section-heading">
+  <div id="chat-module" class="module" :style="{ 'display': ((dialog)? 'block' : 'none')}">
+    <div class="module-box sidebar">
+      <div class="module-box-heading">
         <h3>Messages</h3>
         <span class="close" @click="show(false)"></span>
       </div>
-      <div class="chat-section-interface">
+      <div class="module-box-interface">
         <div class="messages" ref="messagesBox">
           <div
               v-for="(message, index) in messages"
@@ -39,17 +39,17 @@
               v-model="text"
               placeholder="Enter message ..."
           ></textarea>
-          <span class="emojies-toggler" @click="showEmojiesBox">[Emojies]</span>
+          <span class="emojies-toggler" @click="showEmojiesBox">😊</span>
           <button :disabled="!text" @click="sendMessage">Send</button>
         </div>
       </div>
     </div>
-    <div class="chat-module-back" @click="show(false)"></div>
+    <div class="module-back" @click="show(false)"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, defineProps, nextTick, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import beepAudio from '../../assets/audio/beep.mp3'
 import EmojiPicker from 'vue3-emoji-picker'
 
@@ -225,21 +225,10 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import 'vue3-emoji-picker/css';
+@forward 'vue3-emoji-picker/css';
 
 #chat-module {
-  .chat-section-heading {
-    padding: 10px;
-  }
-
-  .chat-section-interface {
-    display: flex;
-    flex: auto;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: auto;
-    padding: 10px;
-
+  .module-box-interface {
     .messages {
       overflow-x: hidden;
       overflow-y: scroll;
@@ -257,12 +246,14 @@ defineExpose({
           margin-right: 15px;
           font-weight: bold;
         }
+
         small {
           color: #777;
           font-size: .8em;
         }
-        p {
 
+        p {
+          margin: 0;
         }
       }
     }
@@ -283,6 +274,11 @@ defineExpose({
         background: none;
         appearance: none;
         outline: none;
+        box-shadow: unset;
+
+        option {
+          text-align: left;
+        }
       }
 
       textarea {
@@ -313,30 +309,6 @@ defineExpose({
         position: absolute;
       }
     }
-  }
-
-  .chat-module-box {
-    position: fixed;
-    flex-direction: column;
-    display: flex;
-    z-index: 999999;
-    top: 0;
-    right: 0;
-    width: 350px;
-    height: 100vh;
-    background: #fff;
-    border: 1px solid #ccc;
-  }
-
-  .chat-module-back {
-    position: fixed;
-    z-index: 999998;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000;
-    opacity: 0.6;
   }
 }
 </style>

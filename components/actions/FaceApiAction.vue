@@ -1,51 +1,77 @@
 <template>
   <div id="faceapi-text-action" :style="{ 'display': ((dialog)? 'block' : 'none')}">
-    <div class="admin-section" v-if="props.userSettings.isCreator">
-      <div class="text-section">
-        <div class="settings mx-15">
-          <div>
-            <label>User:</label>
+    <div class="action-setting" v-if="props.userSettings.isCreator">
+      <div class="action-setting-box">
+        <h2>Face Drawing</h2>
+        <div class="my-2">
+          <div class="select-field">
+            <label>User</label>
             <select
-              v-model="selectedUser"
+                v-model="selectedUser"
             >
               <option
-                v-for="(user, index) in users"
-                :key="'user-' + index"
-                :value="user.peerJsId"
+                  v-for="(user, index) in users"
+                  :key="'user-' + index"
+                  :value="user.peerJsId"
               >{{ user.name }}</option>
             </select>
           </div>
-          <div>
-            <label>Timeout:</label>
-            <input type="text" v-model="timeout" placeholder="Enter timeout" />
-            <span> (seconds) </span>
+        </div>
+        <div class="my-2">
+          <div class="text-field timeout-field">
+            <label>Timeout</label>
+            <input
+              type="text"
+              v-model="timeout"
+              placeholder="Enter timeout"
+            />
+            <span class="prefix">sec</span>
           </div>
         </div>
-        <div class="type-options mx-15">
+        <div class="drawing-options my-5">
           <div>
+            <strong>Select drawing item</strong>
+          </div>
+          <div class="radio-item">
+            <input
+                id="type-hat"
+                name="type"
+                type="radio"
+                v-model="type"
+                value="hat"
+            />
             <label for="type-hat">Pirate Hat</label>
-            <input id="type-hat" name="type" type="radio" value="hat" v-model="type" />
           </div>
-          <div>
-            <label for="type-medal">Medal</label>
-            <input id="type-medal" name="type" type="radio" value="medal" v-model="type"  />
+          <div class="radio-item">
+            <input
+                id="type-medal"
+                name="type"
+                type="radio"
+                v-model="type"
+                value="medal"
+            />
+            <label for="type-medal">Medalion</label>
           </div>
         </div>
-        <div class="mx-15">
-          <button @click="startDraw" :disabled="!selectedUser || !timeout">Start Draw</button>
+        <div class="my-2">
+          <button
+            class="btn btn-block"
+            @click="startDraw"
+            :disabled="!selectedUser || !timeout"
+          >
+            Start Draw
+          </button>
         </div>
       </div>
+      <div class="action-setting-back" @click="show(false)"></div>
     </div>
-    <div class="faceapi-action-back" @click="show(false)"></div>
   </div>
 </template>
 
 <script setup>
-import {defineExpose, defineProps, ref, computed, onMounted, onUnmounted, inject} from 'vue'
+import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
 
 const webrtc = inject('webrtc')
-
-
 
 const props = defineProps({
   webrtc: {
@@ -153,80 +179,33 @@ defineExpose({
 
 <style lang="scss">
 #faceapi-text-action {
-  .admin-section {
-    position: fixed;
-    display: flex;
-    z-index: 2;
-    top: 50%;
-    left: 50%;
-    width: 600px;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    transform: translate(-50%, -50%);
+  .action-setting-box {
+    max-width: 350px;
 
-    @media screen and (max-width:480px) {
-      width: 90%;
-    }
-
-    .mx-15 {
-      margin: 15px 0;
-    }
-
-    .text-section {
+    select {
       width: 100%;
+    }
 
-      .settings {
-        display: flex;
-        justify-content: space-between;
+    .drawing-options {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
 
-        @media screen and (max-width:480px) {
-          flex-direction: column;
-        }
+    .timeout-field {
+      position: relative;
 
-        div {
-          label {
-            margin-right: 5px;
-          }
-
-          select {
-            min-width: 150px;
-          }
-
-          @media screen and (max-width:480px) {
-            margin: 15px;
-          }
-        }
+      input {
+        padding-right: 35px;
       }
 
-      .type-options {
-        width: 100%;
-
-        div {
-          display: inline-block;
-          margin-right: 15px;
-
-          label {
-            margin-right: 5px;
-          }
-
-          &:last-child {
-            margin-right: unset;
-          }
-        }
+      span {
+        position: absolute;
+        right: 10px;
+        color: #979797;
+        top: 40%;
       }
     }
-  }
-
-  .faceapi-action-back {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000;
-    opacity: 0.6;
   }
 }
 </style>

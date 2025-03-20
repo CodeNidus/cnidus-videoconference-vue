@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import {defineProps, defineExpose, defineEmits, inject, shallowRef, ref, nextTick, onBeforeUnmount} from 'vue'
+import { inject, shallowRef, ref, nextTick, onBeforeUnmount } from 'vue'
 import '@tensorflow/tfjs-core'
 import '@tensorflow/tfjs-backend-webgl'
 import '@tensorflow/tfjs-converter'
@@ -264,9 +264,9 @@ const userJoinRoom = (data) =>  {
   console.log('user join to room: ' + data.peerJsId)
 }
 
-const invalidRoom = () => {
+const invalidRoom = (error) => {
   roomIsValid.value = false;
-  emit('onAuthorizeRoomInvalid')
+  emit('onAuthorizeRoomInvalid', error)
 }
 
 const setThemeLayout = async () => {
@@ -366,5 +366,5 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import "../assets/scss/DefaultThemeStyle.scss";
+@forward "../assets/scss/DefaultThemeStyle.scss";
 </style>
